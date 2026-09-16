@@ -1,0 +1,78 @@
+Case Study | Technossus
+FEATURED CASE STUDY
+Home Care Operations, Automated at Scale
+CLIENT
+A national home care and healthcare services organization managing high-volume authorization, billing, reimbursement, supply reorder, and operational workflows across multiple business functions.
+The organization required automation-led process transformation to reduce manual effort, improve operational throughput, lower denial rates, and generate measurable cost savings across revenue-impacting healthcare workflows.
+CHALLENGES
+The client operated several manual and semi-manual processes across authorization, billing validation, supply reorders, asset recovery, call recording archival, and internal operational workflows.
+These processes created administrative bottlenecks, increased labor dependency, slowed transaction handling, and limited scalability across high-volume healthcare operations.
+The client needed to:
+Automate sales order authorization workflows
+Reduce denial rates across a large revenue base
+Improve billing edit validation and support ticket workflows
+Reduce manual effort in Medicaid license comparison and payer validation processes
+Improve supply reorder workflows for eligible patients
+Automate identification of patients requiring asset recovery follow-up
+Create business-user access to monitor and run automation processes
+Improve archival, storage, and processing of millions of call recordings
+Strengthen deployment processes, coding standards, and application architecture practices
+Increase operational capacity without adding proportional headcount
+Without automation and process modernization, the organization faced continued manual bottlenecks, avoidable labor costs, slower processing cycles, higher cost of delay, and missed opportunities to improve revenue protection and operational efficiency.
+SOLUTIONS
+Technossus delivered a portfolio of automation, process improvement, cloud, and platform modernization initiatives to improve operational performance and reduce cost across the clientâs home care workflows.
+These initiatives helped the client improve automation coverage across authorization, billing, supply reorder, asset recovery, data processing, cloud storage, and deployment workflows.
+The new automation ecosystem gave business users better access to operational tools, reduced dependence on manual processing, and improved the reliability and scalability of high-volume healthcare operations.
+The solution included:
+Care authorization automation to streamline the sales order authorization process
+Billing edit validation support to reduce manual ticket handling and improve accuracy
+Medicaid license comparison automation to support billing validation workflows
+Medicare secondary payer validation to prevent avoidable revenue leakage
+A redesigned internal automation toolbox for business users to monitor, manage, and run automation processes
+Bulk update and administrator capabilities to manage security across created APIs
+PCS LTC automation to automatically fax supply reorder forms when patients were due or eligible for supplies
+Batch automation for same or similar rental and routine durable medical equipment workflows
+Asset recovery automation to identify patients with unpaid bills and trigger recovery processes programmatically
+Migration of more than 5.5 million call recordings from a contact center platform to Azure Blob Cold Storage
+Use of cloud resources and auto-scaling to process millions of records efficiently
+Data warehouse integration and reporting enablement across operational datasets
+Automation of deployment processes using CI/CD pipelines and Azure DevOps
+Process improvements aligned to best practices, coding standards, secure architecture, and maintainable application design
+Adoption of Azure Key Vault into coding standards
+API management discovery and evaluation using APIM and MuleSoft
+IMPACT
+The automation-led transformation improved labor efficiency, process performance, cost control, and operational scalability across multiple healthcare business functions.
+By moving from manual, fragmented operational workflows to scalable automation-enabled processes, the client reduced costs, improved performance, strengthened revenue protection, and created a more efficient foundation for high-volume home care operations.
+Business Impact
+Delivered more than $1.5 million in annual labor cost savings
+Reduced denials from 11% to 9% across $4 billion in revenue
+Automated the entire sales order authorization process
+Processed approximately 1,000 sales orders through authorization automation
+Generated 50% monthly FTE cost savings in authorization workflows
+Delivered $200,000 in annual savings through billing edit validation support
+Prevented more than $70,000 per month through Medicare secondary payer validation
+Increased existing billing edit stability capacity by more than 50%
+Generated approximately $60,000 annually through PCS LTC automation across labor savings and revenue generation
+Successfully processed an initial pilot run of 3,000 patients for rental and routine DME automation
+Created more than $100,000 in projected savings from batch same or similar rental and routine DME automation
+Generated approximately $50,000 annually through asset recovery automation
+Migrated more than 5.5 million call recordings to Azure Blob Cold Storage
+Created more than $120,000 per year in cost avoidance through cloud archival optimization
+Improved automation and labor cost efficiency
+Improved performance across operational workflows
+Reduced cost of delay through faster processing and fewer manual bottlenecks
+Strengthened process improvement, deployment automation, and engineering standards
+30%
+Estimated reduction in manual coordination
+2x
+Faster visibility into priority workstreams
+90 days
+Roadmap-ready delivery foundation
+1
+Shared operating model for teams
+LET'S WORK ON IT TOGETHER
+Have a similar challenge to solve?
+Bring us the workflow, platform, or delivery problem that is slowing your team down.
+Talk to Technossus
+View more case studies
+Ask AI
