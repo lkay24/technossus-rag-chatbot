@@ -72,3 +72,16 @@ frontend/
 backend/data/raw/    crawler output (rebuilt from scratch each run, not hand-edited)
 backend/chroma_db/   vector database (rebuilt from scratch each run, not hand-edited)
 ```
+## Running it
+
+```bash
+# backend
+cd backend
+uvicorn main:app --reload
+
+# frontend
+cd frontend
+# open index.html directly, or serve with Live Server
+```
+
+You'll need a `.env` file with your Groq API key. The `chroma_db/` folder (crawled + embedded site data) is already included — no need to re-run `crawler.py`/`ingest.py` unless you want fresh data.
