@@ -84,4 +84,4 @@ cd frontend
 # open index.html directly, or serve with Live Server
 ```
 
-You'll need a `.env` file with your Groq API key. The `chroma_db/` folder (crawled + embedded site data) is already included — no need to re-run `crawler.py`/`ingest.py` unless you want fresh data.
+You'll need a `backend/.env` file containing `GROQ_API_KEY=your_key`. `GET /health` reports whether the knowledge base is loaded; `/chat` returns clear error messages (503 missing knowledge base, 502 model unavailable). To point the frontend at a deployed backend, set `window.API_URL` before `script.js` loads. The `chroma_db/` folder (crawled + embedded site data) is already included — no need to re-run `crawler.py`/`ingest.py` unless you want fresh data.

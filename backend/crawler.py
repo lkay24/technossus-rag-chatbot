@@ -7,13 +7,16 @@ import json
 
 BASE_URL = "https://www.technossus.com/"
 DOMAIN = urlparse(BASE_URL).netloc
-MAX_PAGES = 50
-OUTPUT_DIR = "data/raw"
+MAX_PAGES = 150
+OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "raw")
+
+SKIP_EXT = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico", ".css", ".js",
+            ".pdf", ".zip", ".mp4", ".woff", ".woff2", ".xml", ".json")
 
 def clean_url(url):
     parsed = urlparse(url)
     path = parsed.path
-    if not path.endswith("/"):
+    if not path.endswith("/") and not path.lower().endswith(SKIP_EXT):
         path = path + "/"
     return parsed._replace(path=path, query="", fragment="").geturl()
 
@@ -24,7 +27,8 @@ def get_links(html, current_url):
         full_url = urljoin(current_url, a["href"])
         clean = clean_url(full_url)
         parsed = urlparse(clean)
-        if parsed.netloc == DOMAIN and "cdn-cgi" not in clean:
+        if (parsed.scheme in ("http", "https") and parsed.netloc == DOMAIN
+                and "cdn-cgi" not in clean and not parsed.path.lower().endswith(SKIP_EXT)):
             links.add(clean)
     return links
 
@@ -46,9 +50,16 @@ while queue and len(visited) < MAX_PAGES:
     if url in visited:
         continue
 
-    print(f"Visiting: {url}")
-    response = requests.get(url)
     visited.add(url)
+    print(f"Visiting: {url}")
+    try:
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        print(f"  Skipped ({e})")
+        continue
+    if "text/html" not in response.headers.get("Content-Type", ""):
+        continue
 
     text = extract_text(response.text)
     filename = f"page_{len(manifest)}.txt"
@@ -58,7 +69,7 @@ while queue and len(visited) < MAX_PAGES:
 
     new_links = get_links(response.text, url)
     for link in new_links:
-        if link not in visited:
+        if link not in visited and link not in queue:
             queue.append(link)
 
     time.sleep(0.3)

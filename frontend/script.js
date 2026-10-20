@@ -1,4 +1,10 @@
-const API_URL = "http://localhost:8000/chat";
+const API_URL = window.API_URL || "http://localhost:8000/chat";
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => (
+        { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+    ));
+}
 
 const heroSection = document.getElementById("heroSection");
 const chatSection = document.getElementById("chatSection");
@@ -24,7 +30,7 @@ function appendUserMessage(text) {
     const row = document.createElement("div");
     row.className = "message-row user";
     row.innerHTML = `
-        <div class="bubble">${text.replace(/</g, "&lt;")}</div>
+        <div class="bubble">${escapeHtml(text)}</div>
         <div class="msg-meta"><span class="timestamp">${formatTime()}</span></div>
     `;
     chatArea.appendChild(row);
@@ -35,14 +41,20 @@ function appendBotMessage(markdownText, sources) {
     const row = document.createElement("div");
     row.className = "message-row bot";
 
-    const html = window.marked ? marked.parse(markdownText) : markdownText;
+    let html = window.marked ? marked.parse(markdownText) : escapeHtml(markdownText).replace(/\n/g, "<br>");
+    if (window.DOMPurify) {
+        html = DOMPurify.sanitize(html, { ADD_ATTR: ["target"] });
+    } else if (window.marked) {
+        html = escapeHtml(markdownText).replace(/\n/g, "<br>");
+    }
 
     let sourceHtml = "";
     if (sources && sources.length > 0) {
-        sourceHtml = sources.slice(0, 3).map(url => {
-            const label = url.split("/").filter(Boolean).pop() || "Home";
+        sourceHtml = sources.slice(0, 3).filter(url => /^https?:\/\//.test(url)).map(url => {
+            const parts = url.split("/").filter(Boolean);
+            const label = parts.length > 2 ? parts[parts.length - 1] : "Home";
             const niceLabel = label.replace(/-/g, " ");
-            return `<a class="source-badge" href="${url}" target="_blank" rel="noopener">Source: ${niceLabel}</a>`;
+            return `<a class="source-badge" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Source: ${escapeHtml(niceLabel)}</a>`;
         }).join(" ");
     }
 
@@ -56,9 +68,13 @@ function appendBotMessage(markdownText, sources) {
     `;
 
     const copyBtn = row.querySelector(".copy-btn");
-    copyBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(markdownText);
-        copyBtn.textContent = "Copied";
+    copyBtn.addEventListener("click", async () => {
+        try {
+            await navigator.clipboard.writeText(markdownText);
+            copyBtn.textContent = "Copied";
+        } catch {
+            copyBtn.textContent = "Failed";
+        }
         setTimeout(() => { copyBtn.textContent = "Copy"; }, 1500);
     });
 
@@ -83,7 +99,11 @@ function hideLoading() {
     if (el) el.remove();
 }
 
+let busy = false;
+
 async function sendQuestion(question) {
+    if (busy) return;
+    busy = true;
     activateChatView();
     appendUserMessage(question);
     input.value = "";
@@ -98,16 +118,27 @@ async function sendQuestion(question) {
             body: JSON.stringify({ question })
         });
 
-        if (!response.ok) throw new Error(`Server returned ${response.status}`);
+        if (!response.ok) {
+            let detail = "";
+            try { detail = (await response.json()).detail || ""; } catch {}
+            const err = new Error(`Server returned ${response.status}`);
+            err.detail = typeof detail === "string" ? detail : "";
+            err.status = response.status;
+            throw err;
+        }
 
         const data = await response.json();
         hideLoading();
         appendBotMessage(data.answer, data.sources);
     } catch (err) {
         hideLoading();
-        appendBotMessage("I couldn't reach the assistant. Make sure the backend server is running.", []);
+        const msg = err.status
+            ? (err.detail || "Something went wrong on the server. Please try again.")
+            : "I couldn't reach the assistant. Make sure the backend server is running.";
+        appendBotMessage(msg, []);
         console.error(err);
     } finally {
+        busy = false;
         sendBtn.disabled = false;
         input.focus();
     }
