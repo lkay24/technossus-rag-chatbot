@@ -1,10 +1,12 @@
 import os
 import json
+from urllib.parse import urlparse
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-RAW_DIR = "data/raw"
-CHROMA_DIR = "chroma_db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
+CHROMA_DIR = os.path.join(BASE_DIR, "chroma_db")
 CHUNK_SIZE = 500
 OVERLAP = 100
 
@@ -59,7 +61,6 @@ for filename, url in manifest.items():
     for idx, chunk in enumerate(chunks):
         all_chunks.append(chunk)
         all_ids.append(f"{filename}_{idx}")
-        from urllib.parse import urlparse
         path_parts = urlparse(url).path.strip("/").split("/")
         page_type = path_parts[0] if path_parts and path_parts[0] else "home"
         all_metadatas.append({"source": url, "page_type": page_type})
